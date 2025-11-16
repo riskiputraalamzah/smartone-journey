@@ -1,0 +1,595 @@
+{
+  "kategori": {
+    "keuangan": {
+      "nama": "Keuangan & Pajak",
+      "eduText": {
+        "income": "Pendapatan adalah poin yang kamu terima, misalnya dari bekerja, usaha kecil, atau menjual barang.",
+        "expense": "Pengeluaran adalah poin yang kamu keluarkan untuk kebutuhan. Belajar mengelola pengeluaran membantu menghindari boros.",
+        "tax": "Pajak adalah kontribusi warga untuk membiayai fasilitas umum seperti sekolah, jalan, dan layanan kesehatan.",
+        "save": "Menabung berarti menyisihkan sebagian poin untuk tujuan di masa depan. Menabung membangun keamanan finansial.",
+        "penalty": "Denda muncul ketika ada keterlambatan atau pelanggaran. Denda mengajarkan disiplin dalam mengatur keuangan.",
+        "bonus": "Bonus edukasi! Menjawab pertanyaan dengan benar melatih pemahaman kamu tentang keuangan.",
+        "start": "START adalah titik awal. Melewati START memberi bonus semangat: tambahan poin!"
+      },
+      "tiles": [
+        {
+          "type": "start",
+          "title": "START",
+          "effect": "Lewati START: +10.000 Poin"
+        },
+        {
+          "type": "income",
+          "title": "Pendapatan",
+          "points": 20000,
+          "effect": "+20.000 Poin"
+        },
+        {
+          "type": "expense",
+          "title": "Service motor",
+          "points": -10000,
+          "effect": "-10.000 Poin"
+        },
+        {
+          "type": "tax",
+          "title": "Pajak penghasilan",
+          "percent": 10,
+          "effect": "-10% dari Skor"
+        },
+        {
+          "type": "save",
+          "title": "Tabungan",
+          "points": 10000,
+          "effect": "Pindahkan 10.000 Poin ke tabungan"
+        },
+        {
+          "type": "bonus",
+          "title": "Bonus Edukasi",
+          "effect": "Jawab kuis: +15.000 Poin jika benar"
+        },
+        {
+          "type": "penalty",
+          "title": "Denda telat bayar",
+          "points": -5000,
+          "effect": "-5.000 Poin"
+        },
+        {
+          "type": "income",
+          "title": "Freelance",
+          "points": 15000,
+          "effect": "+15.000 Poin"
+        },
+        {
+          "type": "expense",
+          "title": "Pulsa & Data",
+          "points": -8000,
+          "effect": "-8.000 Poin"
+        },
+        {
+          "type": "save",
+          "title": "Tabungan",
+          "points": 5000,
+          "effect": "Pindahkan 5.000 Poin ke tabungan"
+        },
+        {
+          "type": "tax",
+          "title": "Pajak transportasi",
+          "percent": 5,
+          "effect": "-5% dari Skor"
+        },
+        {
+          "type": "bonus",
+          "title": "Bonus Edukasi",
+          "effect": "Jawab kuis: +15.000 Poin jika benar"
+        },
+        {
+          "type": "income",
+          "title": "Uang saku",
+          "points": 10000,
+          "effect": "+10.000 Poin"
+        },
+        {
+          "type": "expense",
+          "title": "Makan di luar",
+          "points": -12000,
+          "effect": "-12.000 Poin"
+        },
+        {
+          "type": "penalty",
+          "title": "Denda perpustakaan",
+          "points": -4000,
+          "effect": "-4.000 Poin"
+        },
+        {
+          "type": "save",
+          "title": "Tabungan",
+          "points": 7000,
+          "effect": "Pindahkan 7.000 Poin ke tabungan"
+        },
+        {
+          "type": "tax",
+          "title": "Pajak daerah",
+          "percent": 7,
+          "effect": "-7% dari Skor"
+        },
+        {
+          "type": "income",
+          "title": "Jual barang bekas",
+          "points": 18000,
+          "effect": "+18.000 Poin"
+        },
+        {
+          "type": "expense",
+          "title": "Beli buku",
+          "points": -9000,
+          "effect": "-9.000 Poin"
+        },
+        {
+          "type": "bonus",
+          "title": "Bonus Edukasi",
+          "effect": "Jawab kuis: +15.000 Poin jika benar"
+        }
+      ],
+      "quizBank": [
+        {
+          "q": "Apa tujuan utama membayar pajak penghasilan?",
+          "choices": [
+            "Untuk tabungan pribadi",
+            "Untuk membiayai layanan publik",
+            "Untuk hadiah"
+          ],
+          "correct": 1
+        },
+        {
+          "q": "Menabung sebaiknya dilakukan saat...",
+          "choices": [
+            "Ada sisa poin setelah pengeluaran",
+            "Tidak punya pendapatan",
+            "Saat denda datang"
+          ],
+          "correct": 0
+        },
+        {
+          "q": "Jika skor Rp 100.000 dan pajak 10%, berapa pajak yang dibayar?",
+          "choices": [
+            "10.000 Poin",
+            "1.000 Poin",
+            "5.000 Poin"
+          ],
+          "correct": 0
+        }
+      ]
+    },
+    "digital": {
+      "nama": "Literasi Digital (Contoh)",
+      "eduText": {
+        "income": "Poin Wawasan bertambah! Kamu membagikan konten positif.",
+        "expense": "Kamu terkena hoax, poin wawasan berkurang. Selalu cek fakta!",
+        "tax": "Kamu Wajib lapor konten negatif ke pihak berwenang.",
+        "save": "Menyimpan bukti digital (screenshot) penting untuk keamanan.",
+        "penalty": "Denda menyebar misinformasi. Poin dikurangi.",
+        "bonus": "Bonus kuis keamanan siber! Jawab untuk poin ekstra.",
+        "start": "START adalah titik awal perjalanan digitalmu."
+      },
+      "tiles": [
+        {
+          "type": "start",
+          "title": "START",
+          "effect": "Lewati START: +10.000 Poin"
+        },
+        {
+          "type": "income",
+          "title": "Konten Positif",
+          "points": 15000,
+          "effect": "+15.000 Poin"
+        },
+        {
+          "type": "expense",
+          "title": "Kena Hoax",
+          "points": -8000,
+          "effect": "-8.000 Poin"
+        },
+        {
+          "type": "bonus",
+          "title": "Kuis Keamanan",
+          "effect": "Jawab kuis siber!"
+        },
+        {
+          "type": "penalty",
+          "title": "Lupa Log Out",
+          "points": -5000,
+          "effect": "-5.000 Poin"
+        },
+        {
+          "type": "save",
+          "title": "Backup Data",
+          "points": 5000,
+          "effect": "Amankan 5.000 Poin"
+        },
+        {
+          "type": "income",
+          "title": "Verifikasi Fakta",
+          "points": 10000,
+          "effect": "+10.000 Poin"
+        },
+        {
+          "type": "expense",
+          "title": "Download Ilegal",
+          "points": -7000,
+          "effect": "-7.000 Poin"
+        },
+        {
+          "type": "tax",
+          "title": "Lapor Konten",
+          "percent": 5,
+          "effect": "-5% Poin (Lapor Hoax)"
+        },
+        {
+          "type": "bonus",
+          "title": "Kuis Phishing",
+          "effect": "Jawab kuis phishing!"
+        },
+        {
+          "type": "income",
+          "title": "Buat Password Kuat",
+          "points": 5000,
+          "effect": "+5.000 Poin"
+        },
+        {
+          "type": "expense",
+          "title": "Klik Link Aneh",
+          "points": -10000,
+          "effect": "-10.000 Poin"
+        },
+        {
+          "type": "penalty",
+          "title": "Cyberbullying",
+          "points": -15000,
+          "effect": "-15.000 Poin"
+        },
+        {
+          "type": "save",
+          "title": "Aktifkan 2FA",
+          "points": 5000,
+          "effect": "Amankan 5.000 Poin"
+        },
+        {
+          "type": "income",
+          "title": "Edukasi Keluarga",
+          "points": 12000,
+          "effect": "+12.000 Poin"
+        },
+        {
+          "type": "bonus",
+          "title": "Kuis Jejak Digital",
+          "effect": "Jawab kuis digital!"
+        },
+        {
+          "type": "expense",
+          "title": "Posting Berlebihan",
+          "points": -6000,
+          "effect": "-6.000 Poin"
+        },
+        {
+          "type": "tax",
+          "title": "Lapor Konten",
+          "percent": 5,
+          "effect": "-5% Poin (Lapor Ujaran Benci)"
+        },
+        {
+          "type": "penalty",
+          "title": "Sebar Data Pribadi",
+          "points": -20000,
+          "effect": "-20.000 Poin"
+        },
+        {
+          "type": "income",
+          "title": "Menang Lomba Blog",
+          "points": 25000,
+          "effect": "+25.000 Poin"
+        }
+      ],
+      "quizBank": [
+        {
+          "q": "Apa kepanjangan dari 'OTP' dalam keamanan digital?",
+          "choices": [
+            "One Time Password",
+            "Only True Password",
+            "Open The Phone"
+          ],
+          "correct": 0
+        },
+        {
+          "q": "Manakah yang merupakan contoh Phishing?",
+          "choices": [
+            "Email resmi dari bank",
+            "Link aneh minta password",
+            "Telepon dari teman"
+          ],
+          "correct": 1
+        },
+        {
+          "q": "Apa fungsi dari 2FA (Two-Factor Authentication)?",
+          "choices": [
+            "Mempercepat internet",
+            "Menambah lapisan keamanan",
+            "Membuat password baru"
+          ],
+          "correct": 1
+        }
+      ]
+    },
+    "uangSaku": {
+      "nama": "Uang Saku & Pengelolaan Harian",
+      "eduText": {
+        "income": "Kamu mendapatkan uang saku dari orang tua atau hasil usaha kecil.",
+        "expense": "Pengeluaran membuatmu belajar memilih mana yang penting dan mana yang bisa ditunda.",
+        "tax": "Kamu menyisihkan sedikit untuk keperluan bersama seperti kebersihan kelas atau kegiatan sekolah.",
+        "save": "Menabung membantu mewujudkan rencana keuangan kecilmu, seperti membeli buku baru atau alat tulis favorit.",
+        "penalty": "Kamu lupa mengatur uang sehingga harus membayar lebih atau mengganti barang yang hilang.",
+        "bonus": "Bonus pengetahuan! Jawab kuis dengan benar untuk mendapatkan poin tambahan.",
+        "start": "START! Kamu mendapat tambahan poin sebagai semangat awal mengelola uang saku."
+      },
+      "tiles": [
+        {
+          "type": "start",
+          "title": "START",
+          "effect": "Lewati START: +10.000 Poin"
+        },
+        {
+          "type": "income",
+          "title": "Uang saku harian",
+          "points": 20000,
+          "effect": "+20.000 Poin"
+        },
+        {
+          "type": "expense",
+          "title": "Jajan tidak direncanakan",
+          "points": -12000,
+          "effect": "-12.000 Poin"
+        },
+        {
+          "type": "tax",
+          "title": "Iuran kelas bulanan",
+          "percent": 5,
+          "effect": "-5% dari Skor"
+        },
+        {
+          "type": "save",
+          "title": "Menabung target kecil",
+          "points": 8000,
+          "effect": "Tabung 8.000 Poin"
+        },
+        {
+          "type": "bonus",
+          "title": "Bonus Edukasi",
+          "effect": "Jawab kuis untuk +15.000 Poin"
+        },
+        {
+          "type": "penalty",
+          "title": "Telat bayar uang kas",
+          "points": -7000,
+          "effect": "-7.000 Poin"
+        },
+        {
+          "type": "income",
+          "title": "Uang saku tambahan",
+          "points": 15000,
+          "effect": "+15.000 Poin"
+        },
+        {
+          "type": "expense",
+          "title": "Beli alat tulis",
+          "points": -9000,
+          "effect": "-9.000 Poin"
+        },
+        {
+          "type": "save",
+          "title": "Tabungan mingguan",
+          "points": 10000,
+          "effect": "Tabung 10.000 Poin"
+        },
+        {
+          "type": "tax",
+          "title": "Iuran kebersihan sekolah",
+          "percent": 5,
+          "effect": "-5% dari Skor"
+        },
+        {
+          "type": "bonus",
+          "title": "Bonus Edukasi",
+          "effect": "Jawab kuis untuk +15.000 Poin"
+        },
+        {
+          "type": "income",
+          "title": "Uang saku mingguan",
+          "points": 25000,
+          "effect": "+25.000 Poin"
+        },
+        {
+          "type": "expense",
+          "title": "Jajan minuman manis",
+          "points": -14000,
+          "effect": "-14.000 Poin"
+        },
+        {
+          "type": "penalty",
+          "title": "Denda kehilangan barang kelas",
+          "points": -10000,
+          "effect": "-10.000 Poin"
+        },
+        {
+          "type": "save",
+          "title": "Menabung untuk kebutuhan besar",
+          "points": 15000,
+          "effect": "Tabung 15.000 Poin"
+        },
+        {
+          "type": "tax",
+          "title": "Iuran kegiatan ekstrakurikuler",
+          "percent": 7,
+          "effect": "-7% dari Skor"
+        },
+        {
+          "type": "income",
+          "title": "Bantu orang tua di rumah",
+          "points": 20000,
+          "effect": "+20.000 Poin"
+        },
+        {
+          "type": "expense",
+          "title": "Beli buku latihan",
+          "points": -12000,
+          "effect": "-12.000 Poin"
+        },
+        {
+          "type": "bonus",
+          "title": "Bonus Edukasi",
+          "effect": "Jawab kuis untuk +15.000 Poin"
+        }
+      ],
+      "quizLevels": {
+        "1": [
+          {
+            "q": "Apa tujuan utama dari menabung uang saku?",
+            "choices": [
+              "Agar bisa membeli hal yang diinginkan nanti",
+              "Agar uang saku bertambah otomatis",
+              "Agar tidak perlu belajar mengatur uang"
+            ],
+            "correct": 0
+          },
+          {
+            "q": "Jika kamu punya 5.000 dan ingin jajan 10.000, apa yang sebaiknya dilakukan?",
+            "choices": [
+              "Meminjam uang ke teman",
+              "Menunda jajan sampai cukup",
+              "Tetap jajan dan tidak membayar"
+            ],
+            "correct": 1
+          },
+          {
+            "q": "Contoh pemasukan bagi pelajar adalah…",
+            "choices": [
+              "Membeli jajanan",
+              "Mendapat uang dari orang tua",
+              "Membeli buku"
+            ],
+            "correct": 1
+          },
+          {
+            "q": "Apa yang dimaksud pengeluaran?",
+            "choices": [
+              "Uang yang kamu terima",
+              "Uang yang kamu keluarkan",
+              "Uang yang disimpan di tabungan"
+            ],
+            "correct": 1
+          },
+          {
+            "q": "Mengapa penting mencatat pengeluaran?",
+            "choices": [
+              "Agar tahu kemana uangmu pergi",
+              "Agar uang jadi lebih banyak",
+              "Agar bisa jajan lebih banyak"
+            ],
+            "correct": 0
+          }
+        ],
+        "2": [
+          {
+            "q": "Kamu memiliki 20.000. Jika kamu menabung 8.000 dan membeli alat tulis 9.000, berapa sisa uangmu?",
+            "choices": [
+              "3.000",
+              "4.000",
+              "5.000"
+            ],
+            "correct": 0
+          },
+          {
+            "q": "Apa keputusan terbaik jika kamu ingin membeli sesuatu yang harganya lebih mahal dari uang saku harianmu?",
+            "choices": [
+              "Menabung beberapa hari",
+              "Meminjam ke banyak teman",
+              "Meminta uang tambahan tanpa alasan"
+            ],
+            "correct": 0
+          },
+          {
+            "q": "Jika setiap hari kamu jajan 12.000 dari uang saku 20.000, berapa yang bisa kamu tabung dalam 5 hari?",
+            "choices": [
+              "40.000",
+              "20.000",
+              "10.000"
+            ],
+            "correct": 1
+          },
+          {
+            "q": "Jika kamu sering menghabiskan uang tanpa rencana, apa akibatnya?",
+            "choices": [
+              "Uang cepat habis",
+              "Uang bertambah cepat",
+              "Bisa menabung lebih banyak"
+            ],
+            "correct": 0
+          },
+          {
+            "q": "Apa pilihan terbaik ketika memilih untuk jajan atau menabung untuk membeli buku?",
+            "choices": [
+              "Tetap jajan walapun tidak penting",
+              "Menunda jajan dan menabung",
+              "Tidak menabung sama sekali"
+            ],
+            "correct": 1
+          }
+        ],
+        "3": [
+          {
+            "q": "Kamu ingin membeli buku harga 45.000. Jika uang saku mingguanmu 25.000 dan kamu menabung 60% tiap minggu, berapa minggu sampai cukup?",
+            "choices": [
+              "3 minggu",
+              "2 minggu",
+              "4 minggu"
+            ],
+            "correct": 1
+          },
+          {
+            "q": "Jika kamu mendapat uang 30.000, menabung 10.000, lalu terkena denda 5.000, berapa uangmu sekarang?",
+            "choices": [
+              "15.000",
+              "20.000",
+              "25.000"
+            ],
+            "correct": 1
+          },
+          {
+            "q": "Mana kebiasaan yang paling membantu mengatur uang saku jangka panjang?",
+            "choices": [
+              "Selalu mencatat pemasukan dan pengeluaran",
+              "Jajan tanpa memperhatikan harga",
+              "Menabung hanya kalau ingat"
+            ],
+            "correct": 0
+          },
+          {
+            "q": "Jika kamu ingin membeli barang 100.000 dalam 1 bulan dan uang sakumu 30.000 per minggu, berapa yang harus ditabung tiap minggu?",
+            "choices": [
+              "20.000",
+              "25.000",
+              "30.000"
+            ],
+            "correct": 1
+          },
+          {
+            "q": "Kamu memiliki 50.000. Kamu ingin membeli mainan 40.000 dan juga perlu membeli buku 20.000. Apa keputusan terbaik?",
+            "choices": [
+              "Membeli mainan saja",
+              "Membeli buku terlebih dahulu",
+              "Tidak membeli apapun dan menabung semuanya"
+            ],
+            "correct": 1
+          }
+        ]
+      }
+    }
+  }
+}

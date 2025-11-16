@@ -1,0 +1,317 @@
+/* ======================================================
+   GLOBAL
+====================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
+:root {
+  --bg-dark: #070b2d;
+  --bg-medium: #1f2041;
+  --text-light: #f0f0f0;
+  --accent-blue: #00bbf9;
+
+  --color-income: #21d247;
+  --color-expense: #dc3545;
+  --color-tax: #ff00d4;
+  --color-save: #007bff;
+  --color-bonus: #6f42c1;
+  --color-penalty: #dc3545;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  overflow: hidden;
+  height: 100vh;
+  width: 100%;
+  text-align: center;
+}
+/* ======================================================
+   SCREEN SYSTEM
+====================================================== */
+.screen {
+  display: none;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  inset: 0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.screen.active {
+  display: flex;
+}
+/* ======================================================
+   BUTTONS
+====================================================== */
+button {
+  background: var(--accent-blue);
+  color: #000;
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: 50px;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s;
+}
+button:hover {
+  transform: scale(1.05);
+  background: #fff;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* ======================================================
+   PLAYER INFO BOXES
+====================================================== */
+.player-info-box {
+  background: var(--bg-medium);
+  border-radius: 14px;
+  padding: 14px;
+  width: 260px;
+  border: 3px solid rgba(255,255,255,0.15);
+  text-align: left;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+#player1-info { position: absolute; top: 40px; left: 40px; border-color: #00eaff; }
+#player2-info { position: absolute; top: 40px; right: 40px; border-color: #ffc42b; }
+#player3-info { position: absolute; bottom: 40px; left: 40px; border-color: #ff4d4d; }
+#player4-info { position: absolute; bottom: 40px; right: 40px; border-color: #3cff75; }
+/* ======================================================
+   CENTER AREA (BOARD + TITLE)
+====================================================== */
+.center-area {
+  margin-top: 40px;
+}
+.center-area h1 {
+  font-size: 38px;
+  margin-bottom: 4px;
+}
+#turnInfo {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+/* ======================================================
+   BOARD WRAPPER
+====================================================== */
+#board-wrapper {
+  width: 440px;
+  height: 440px;
+  margin: 0 auto;
+  position: relative;
+}
+/* ======================================================
+   BOARD GRID
+====================================================== */
+.board {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 6px;
+  grid-auto-rows: 1fr;
+}
+/* =====================================================
+   TILE STYLES
+====================================================== */
+.tile {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 2px;
+  text-align: center;
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  line-height: 1.15;
+}
+/* Judul tile */
+.tile .title {
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+/* Deskripsi tile */
+.tile .effect {
+  font-size: 7.2px;
+  opacity: 0.85;
+  line-height: 1.1;
+}
+/* VOID (middle empty squares) */
+.tile.void {
+  visibility: hidden !important;
+  pointer-events: none !important;
+  background: transparent !important;
+  border: none !important;
+}
+/* ======================================================
+   TILE COLORS (RESTORED)
+====================================================== */
+.tile.income {
+  background: linear-gradient(135deg, rgba(31,138,36,0.35), rgba(31,138,36,0.15));
+  border-color: rgba(31,138,36,0.5);
+}
+.tile.expense {
+  background: linear-gradient(135deg, rgba(171,35,70,0.35), rgba(171,35,70,0.15));
+  border-color: rgba(171,35,70,0.5);
+}
+.tile.tax {
+  background: linear-gradient(135deg, rgba(184,134,11,0.35), rgba(184,134,11,0.15));
+  border-color: rgba(184,134,11,0.5);
+}
+.tile.save {
+  background: linear-gradient(135deg, rgba(30,111,159,0.35), rgba(30,111,159,0.15));
+  border-color: rgba(30,111,159,0.5);
+}
+.tile.bonus {
+  background: linear-gradient(135deg, rgba(107,45,189,0.35), rgba(107,45,189,0.15));
+  border-color: rgba(107,45,189,0.5);
+}
+.tile.penalty {
+  background: linear-gradient(135deg, rgba(189,95,45,0.35), rgba(189,95,45,0.15));
+  border-color: rgba(189,95,45,0.5);
+}
+.tile.start {
+  background: linear-gradient(135deg, rgba(128,128,128,0.25), rgba(128,128,128,0.10));
+  border-color: rgba(128,128,128,0.5);
+}
+/* ======================================================
+   DICE & DICE OVERLAY
+====================================================== */
+#diceOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  pointer-events: none;
+}
+#dice {
+  width: 120px;
+  height: 120px;
+  background: white;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  color: #000;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+  pointer-events: none;
+}
+/* ======================================================
+   GAME CONTROLS
+====================================================== */
+#game-controls {
+  margin-top: 20px;
+}
+#diceValue {
+  margin-bottom: 8px;
+}
+/* ======================================================
+   QUIZ MODAL
+====================================================== */
+dialog::backdrop {
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(3px);
+}
+dialog {
+  border: none;
+  padding: 0;
+  animation: popIn 0.25s ease;
+}
+#quizModal {
+  background: var(--bg-medium);
+  color: var(--text-light);
+  padding: 22px;
+  border-radius: 14px;
+  width: 380px;
+  max-width: 90vw;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+#quizQuestion {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+#quizChoices {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+#quizChoices label {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  cursor: pointer;
+}
+@keyframes popIn {
+  from { opacity:0; transform:scale(0.9); }
+  to   { opacity:1; transform:scale(1); }
+}
+/* ======================================================
+   EDU POPUP
+====================================================== */
+.edu-popup {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-medium);
+  padding: 12px 18px;
+  border-radius: 12px;
+  opacity: 0;
+  transition: 0.3s;
+  pointer-events: none;
+  font-size: 14px;
+}
+.edu-popup.show {
+  opacity: 1;
+  bottom: 32px;
+}
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+@media (max-width: 600px) {
+  #board-wrapper {
+    width: 330px;
+    height: 330px;
+  }
+  #dice {
+    width: 90px;
+    height: 90px;
+    font-size: 36px;
+  }
+  .player-info-box {
+    width: 180px;
+    font-size: 0.75rem;
+  }
+}
+.tile.highlight {
+  box-shadow: 0 0 18px rgba(255,255,255,0.08);
+  transform: scale(1.01);
+}
+.pion {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 3000;
+  border: 2px solid rgba(255,255,255,0.7);
+  transition: left 0.32s ease-in-out, top 0.32s ease-in-out;
+}
+#pion1 { background: #ff3b3b; }
+#pion2 { background: #ffd028; }
+#pion3 { background: #00e0ff; }
+#pion4 { background: #38ff6b; }

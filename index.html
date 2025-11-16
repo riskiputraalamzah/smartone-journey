@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartOne Finance</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="screen-landing" class="screen active">
+    <h1>SmartOne Finance</h1>
+    <p>Game Edukasi: Bermain Sambil belajar</p> <button id="gassMulaiBtn">GASS MULAI</button>
+  </div>
+  <div id="screen-setup" class="screen">
+    <h2>Pilih Kategori:</h2> <select id="categorySel"></select>
+    <h2>Pilih Jumlah Pemain:</h2> <select id="playerCount">
+      <option value="2" selected>2 Pemain</option>
+      <option value="3">3 Pemain</option>
+      <option value="4">4 Pemain</option>
+    </select> <button id="startBtn" disabled>Memuat Data...</button>
+  </div>
+  <div id="screen-game" class="screen">
+    <div id="player1-info" class="player-info-box"></div>
+    <div id="player2-info" class="player-info-box"></div>
+    <div id="player3-info" class="player-info-box"></div>
+    <div id="player4-info" class="player-info-box"></div>
+    <div class="center-area">
+      <h1>SmartOne Finance</h1>
+      <div id="turnInfo">Menunggu pemain...</div>
+      <div id="board-wrapper">
+        <div id="board" class="board"> </div>
+        <div id="pion1" class="pion"></div>
+        <div id="pion2" class="pion"></div>
+        <div id="pion3" class="pion"></div>
+        <div id="pion4" class="pion"></div>
+        <div id="diceOverlay">
+          <div id="dice">1</div>
+        </div>
+      </div>
+      <div id="game-controls">
+        <div id="diceValue" aria-live="polite">Lempar dadu untuk mulai!</div> <button id="rollBtn" disabled>🎲 Lempar
+          Dadu</button>
+      </div>
+    </div>
+  </div>
+  <dialog id="quizModal">
+    <p id="quizQuestion"></p>
+    <div id="quizChoices"></div> <button id="quizSubmit">Jawab</button>
+  </dialog>
+  <div id="eduPopup" class="edu-popup"></div>
+  <script src="game.js"></script>
+  <script> const screenLanding = document.getElementById("screen-landing"); const screenSetup = document.getElementById("screen-setup"); const gassMulaiBtn = document.getElementById("gassMulaiBtn"); gassMulaiBtn.addEventListener("click", () => { screenLanding.classList.remove("active"); screenSetup.classList.add("active"); }); </script>
+</body>
+
+</html>
