@@ -19,14 +19,14 @@ const quizModal = document.getElementById("quizModal");
 const quizQuestion = document.getElementById("quizQuestion");
 const quizChoices = document.getElementById("quizChoices");
 const quizSubmit = document.getElementById("quizSubmit");
-const modalNotif = document.getElementById("modalNotif"); 
+const modalNotif = document.getElementById("modalNotif");
 
 // --- ELEMENT PEMAIN & PAPAN ---
 const playerInfoBoxes = [
   document.getElementById("player1-info"),
   document.getElementById("player2-info"),
   document.getElementById("player3-info"),
-  document.getElementById("player4-info")
+  document.getElementById("player4-info"),
 ];
 const diceOverlayEl = document.getElementById("diceOverlay");
 const pionEls = [
@@ -36,7 +36,9 @@ const pionEls = [
   document.getElementById("pion4"),
 ];
 const boardWrapper = document.getElementById("board-wrapper");
-const notifPopup = document.getElementById("notifPopup"); 
+const notifPopup = document.getElementById("notifPopup");
+const sidebarToggleBtn = document.getElementById("sidebar-toggle-btn");
+const playerInfoContainer = document.getElementById("player-info-container");
 
 // --- KONFIGURASI PAPAN ---
 const gridSize = 6;
@@ -47,15 +49,20 @@ for (let c = gridSize - 2; c >= 0; c--) path.push([gridSize - 1, c]);
 for (let r = gridSize - 2; r >= 1; r--) path.push([r, 0]);
 
 const T = {
-  START: "start", INCOME: "income", EXPENSE: "expense",
-  TAX: "tax", SAVE: "save", BONUS: "bonus", PENALTY: "penalty",
+  START: "start",
+  INCOME: "income",
+  EXPENSE: "expense",
+  TAX: "tax",
+  SAVE: "save",
+  BONUS: "bonus",
+  PENALTY: "penalty",
 };
 
 // --- STATE GLOBAL ---
 let allGameData = null;
 let currentTiles = [];
-let currentQuizBank = [];     
-let currentQuizLevels = null;  
+let currentQuizBank = [];
+let currentQuizLevels = null;
 let currentEduText = {};
 
 const tokenColors = ["#22d3ee", "#fbbf24", "#ef4444", "#22c55e"];
@@ -67,10 +74,18 @@ let turn = 0;
 let started = false;
 
 // [BARU] Flag untuk mencegah spam klik dadu
-let isProcessingTurn = false; 
+let isProcessingTurn = false;
 
 const LEVEL_THRESHOLDS = { 2: 130000, 3: 300000 };
 const BONUS_BY_LEVEL = { 1: 15000, 2: 8000, 3: 5000 };
+
+// --- EVENT LISTENER SIDEBAR ---
+if (sidebarToggleBtn && playerInfoContainer) {
+  sidebarToggleBtn.addEventListener("click", () => {
+    sidebarToggleBtn.classList.toggle("open");
+    playerInfoContainer.classList.toggle("open");
+  });
+}
 
 /* ------------------------------------------------------
    1. LOAD DATA & SETUP AWAL
@@ -94,27 +109,34 @@ function populateCategorySelect() {
   const categoryGroup = document.getElementById("category-card-group");
   categoryGroup.innerHTML = "";
   const categories = Object.keys(allGameData.kategori || {});
-  
+
   const categoryIcons = {
-    "A": "💰", "B": "📱", "C": "🤝", "D": "🏪", "E": "🥗", "F": "🛡️"
+    A: "💰",
+    B: "📱",
+    C: "🤝",
+    D: "🏪",
+    E: "🥗",
+    F: "🛡️",
   };
 
   categories.forEach((key, index) => {
     const card = document.createElement("div");
     card.className = "card-choice";
     const namaKategori = allGameData.kategori[key].nama || key;
-    const icon = categoryIcons[key] || "⭐"; 
+    const icon = categoryIcons[key] || "⭐";
 
     card.innerHTML = `<div class="emoji-icon">${icon}</div><span>${namaKategori}</span>`;
     card.dataset.key = key;
-    
+
     if (index === 0) {
       card.classList.add("selected");
       selectedCategoryKey = key;
     }
-    
+
     card.addEventListener("click", () => {
-      categoryGroup.querySelectorAll(".card-choice").forEach(c => c.classList.remove("selected"));
+      categoryGroup
+        .querySelectorAll(".card-choice")
+        .forEach((c) => c.classList.remove("selected"));
       card.classList.add("selected");
       selectedCategoryKey = card.dataset.key;
     });
@@ -127,8 +149,8 @@ function populateCategorySelect() {
 ------------------------------------------------------ */
 function renderBoard() {
   boardEl.innerHTML = "";
-  diceOverlayEl.style.display = 'none';
-  
+  diceOverlayEl.style.display = "none";
+
   const cells = new Map();
   for (let r = 0; r < gridSize; r++) {
     for (let c = 0; c < gridSize; c++) {
@@ -139,12 +161,16 @@ function renderBoard() {
       cells.set(`${r}-${c}`, cell);
     }
   }
-  
+
   path.forEach((coord, i) => {
     const [r, c] = coord;
     const cell = cells.get(`${r}-${c}`);
-    const t = currentTiles[i % currentTiles.length] || { title: "?", effect: "", type: "income" };
-    
+    const t = currentTiles[i % currentTiles.length] || {
+      title: "?",
+      effect: "",
+      type: "income",
+    };
+
     cell.className = `tile ${t.type}`;
     cell.innerHTML = `
       <div class="title">${t.title}</div>
@@ -153,7 +179,7 @@ function renderBoard() {
   });
 
   setTimeout(placeAllPions, 0);
-  diceOverlayEl.style.display = 'flex';
+  diceOverlayEl.style.display = "flex";
 }
 
 /* ------------------------------------------------------
@@ -169,22 +195,22 @@ function createPlayers(n = 2) {
     savingsPoints: 0,
     laps: 0,
     level: 1,
-    usedQuestions: { 1: new Set(), 2: new Set(), 3: new Set() }
+    usedQuestions: { 1: new Set(), 2: new Set(), 3: new Set() },
   }));
   updatePlayersPanel();
   placeAllPions();
 }
 
 function updatePlayersPanel() {
-  playerInfoBoxes.forEach(box => box.style.display = 'none');
+  playerInfoBoxes.forEach((box) => (box.style.display = "none"));
 
   players.forEach((p, index) => {
     const box = playerInfoBoxes[index];
     if (!box) return;
 
-    box.style.display = 'block';
-    box.style.border = "none"; 
-    
+    box.style.display = "block";
+    box.style.border = "none";
+
     box.innerHTML = `
       <div class="p-header" style="background: ${p.color};">
         <span>👤 ${p.name}</span>
@@ -208,8 +234,13 @@ function updatePlayersPanel() {
   });
 }
 
-function currentPlayer() { return players[turn % players.length]; }
-function nextTurn() { turn = (turn + 1) % players.length; setTurnInfo(); }
+function currentPlayer() {
+  return players[turn % players.length];
+}
+function nextTurn() {
+  turn = (turn + 1) % players.length;
+  setTurnInfo();
+}
 function setTurnInfo() {
   const p = currentPlayer();
   diceValueEl.textContent = `Giliran ${p.name} melempar dadu!`;
@@ -225,28 +256,37 @@ function tileElementAt(r, c) {
 function updatePionPosition(player) {
   const pion = pionEls[player.id];
   if (!pion || !boardEl) return;
-  
+
   const idx = player.pos % path.length;
   const [r, c] = path[idx];
   const tile = tileElementAt(r, c);
-  
+
   if (!tile) {
-    pion.style.left = `0px`; pion.style.top = `0px`;
+    pion.style.left = `0px`;
+    pion.style.top = `0px`;
     return;
   }
-  
+
   const boardRect = boardEl.getBoundingClientRect();
   const tileRect = tile.getBoundingClientRect();
-  const left = tileRect.left - boardRect.left + tileRect.width / 2 - (pion.offsetWidth || 32) / 2;
-  const top = tileRect.top - boardRect.top + tileRect.height / 2 - (pion.offsetHeight || 32) / 2;
-  
+  const left =
+    tileRect.left -
+    boardRect.left +
+    tileRect.width / 2 -
+    (pion.offsetWidth || 32) / 2;
+  const top =
+    tileRect.top -
+    boardRect.top +
+    tileRect.height / 2 -
+    (pion.offsetHeight || 32) / 2;
+
   pion.style.left = `${Math.round(left)}px`;
   pion.style.top = `${Math.round(top)}px`;
 }
 
-playerChoices.forEach(button => {
+playerChoices.forEach((button) => {
   button.addEventListener("click", () => {
-    playerChoices.forEach(btn => btn.classList.remove("selected"));
+    playerChoices.forEach((btn) => btn.classList.remove("selected"));
     button.classList.add("selected");
     selectedPlayerCount = Number(button.dataset.value);
   });
@@ -255,35 +295,40 @@ playerChoices.forEach(button => {
 function placeAllPions() {
   players.forEach((p) => {
     const el = pionEls[p.id];
-    if (el) { el.style.display = 'flex'; } 
+    if (el) {
+      el.style.display = "flex";
+    }
     updatePionPosition(p);
   });
   for (let i = players.length; i < pionEls.length; i++) {
-    pionEls[i].style.display = 'none';
+    pionEls[i].style.display = "none";
   }
 }
 
 window.addEventListener("resize", () => {
-  if (typeof window._pionResizeTimeout !== "undefined") clearTimeout(window._pionResizeTimeout);
+  if (typeof window._pionResizeTimeout !== "undefined")
+    clearTimeout(window._pionResizeTimeout);
   window._pionResizeTimeout = setTimeout(() => placeAllPions(), 120);
 });
 
 /* ------------------------------------------------------
    5. GAMEPLAY ACTIONS
 ------------------------------------------------------ */
-function rollDice() { return Math.floor(Math.random() * 6) + 1; }
+function rollDice() {
+  return Math.floor(Math.random() * 6) + 1;
+}
 
-function applyStartBonus(player) { 
-  player.points += 10000; 
-  showInModalOrNotif(`${player.name} melewati START: +10.000 Poin`); 
+function applyStartBonus(player) {
+  player.points += 10000;
+  showInModalOrNotif(`${player.name} melewati START: +10.000 Poin`);
 }
 
 function resolveTile(player) {
   const tile = currentTiles[player.pos % currentTiles.length];
-  const eduText = currentEduText[tile.type] || ""; 
+  const eduText = currentEduText[tile.type] || "";
 
-  let pointMessage = ""; 
-  let runQuiz = false; 
+  let pointMessage = "";
+  let runQuiz = false;
 
   switch (tile.type) {
     case T.INCOME:
@@ -311,11 +356,13 @@ function resolveTile(player) {
       break;
     case T.BONUS:
       pointMessage = `${player.name}: ${tile.title}!`;
-      runQuiz = true; 
+      runQuiz = true;
       break;
     case T.PENALTY:
       player.points += tile.points;
-      pointMessage = `${player.name}: Denda ${tile.title} ${toPoinStr(tile.points)}`;
+      pointMessage = `${player.name}: Denda ${tile.title} ${toPoinStr(
+        tile.points
+      )}`;
       break;
     case T.START:
       pointMessage = `${player.name} di START.`;
@@ -323,35 +370,44 @@ function resolveTile(player) {
   }
 
   if (pointMessage) {
-     showInModalOrNotif(pointMessage, eduText);
+    showInModalOrNotif(pointMessage, eduText);
   }
 
   if (runQuiz) {
     setTimeout(() => {
       handleQuiz(player);
-    }, 500); 
+    }, 500);
   }
 
   updatePlayerLevel(player);
   updatePlayersPanel();
 }
 
-function fmt(n) { return n.toLocaleString("id-ID"); }
-function toPoinStr(n) { return (n < 0 ? "-" : "+") + " " + Math.abs(n).toLocaleString("id-ID") + " Poin"; }
+function fmt(n) {
+  return n.toLocaleString("id-ID");
+}
+function toPoinStr(n) {
+  return (
+    (n < 0 ? "-" : "+") + " " + Math.abs(n).toLocaleString("id-ID") + " Poin"
+  );
+}
 
 /* ------------------------------------------------------
    6. NOTIFICATIONS
 ------------------------------------------------------ */
 function showNotif(msg, eduMsg = "", time = 2500) {
-  let html = `<span>${msg}</span>`; 
-  if (eduMsg) html += `<small>${eduMsg}</small>`; 
+  let html = `<span>${msg}</span>`;
+  if (eduMsg) html += `<small>${eduMsg}</small>`;
   notifPopup.innerHTML = html;
-  
-  const duration = eduMsg ? 4500 : time; 
+
+  const duration = eduMsg ? 4500 : time;
 
   notifPopup.classList.add("show");
   clearTimeout(notifPopup._t);
-  notifPopup._t = setTimeout(() => notifPopup.classList.remove("show"), duration);
+  notifPopup._t = setTimeout(
+    () => notifPopup.classList.remove("show"),
+    duration
+  );
 }
 
 function showInModalOrNotif(msg, eduMsg = "", time = 2000) {
@@ -359,7 +415,9 @@ function showInModalOrNotif(msg, eduMsg = "", time = 2000) {
     modalNotif.textContent = msg;
     modalNotif.style.display = "block";
     clearTimeout(modalNotif._t);
-    modalNotif._t = setTimeout(() => { modalNotif.style.display = "none"; }, time);
+    modalNotif._t = setTimeout(() => {
+      modalNotif.style.display = "none";
+    }, time);
   } else {
     showNotif(msg, eduMsg, time);
   }
@@ -391,17 +449,23 @@ function askQuiz(bank, playerLevel = 1) {
       ev.preventDefault();
       const sel = quizChoices.querySelector('input[name="quizOpt"]:checked');
       const answer = sel ? Number(sel.value) : null;
-      const correct = (answer === item.correct);
+      const correct = answer === item.correct;
 
       modalNotif.textContent = correct ? `Jawaban benar!` : `Jawaban salah.`;
       modalNotif.style.display = "block";
 
-      await new Promise(r => setTimeout(r, 1000));
-      try { quizModal.close(); } catch (e) { }
+      await new Promise((r) => setTimeout(r, 1000));
+      try {
+        quizModal.close();
+      } catch (e) {}
       resolve({ answer, correct, item });
     };
 
-    try { quizModal.showModal(); } catch (e) { console.error("Dialog error", e); }
+    try {
+      quizModal.showModal();
+    } catch (e) {
+      console.error("Dialog error", e);
+    }
   });
 }
 
@@ -412,12 +476,22 @@ function rollDiceAnimated() {
   return new Promise((resolve) => {
     playDiceSound();
     const result = Math.floor(Math.random() * 6) + 1;
+    const diceContainer = diceEl.querySelector('.dice-container');
+
+    // Hapus kelas hasil sebelumnya
+    for (let i = 1; i <= 6; i++) {
+      diceContainer.classList.remove('show-' + i);
+    }
+
+    // Tambahkan kelas untuk animasi roll
     diceEl.classList.add("roll");
+
     setTimeout(() => {
       diceEl.classList.remove("roll");
-      diceEl.textContent = result;
+      // Tampilkan sisi yang benar
+      diceContainer.classList.add('show-' + result);
       resolve(result);
-    }, 450);
+    }, 800); // Sesuaikan durasi dengan animasi di CSS
   });
 }
 
@@ -426,14 +500,14 @@ async function movePlayerAnimated(player, steps) {
   for (let i = 0; i < steps; i++) {
     const oldPos = player.pos;
     player.pos = (player.pos + 1) % ringLen;
-    
+
     if (player.pos === 0 && oldPos !== 0) {
       player.laps++;
       applyStartBonus(player);
       updatePlayersPanel();
     }
     updatePionPosition(player);
-    await new Promise((r) => setTimeout(r, 220)); 
+    await new Promise((r) => setTimeout(r, 220));
   }
   highlightLanding(player.pos);
   resolveTile(player);
@@ -446,7 +520,8 @@ async function handleQuiz(player) {
 
   if (currentQuizLevels?.[level]?.length > 0) bank = currentQuizLevels[level];
   else if (currentQuizBank?.length > 0) bank = currentQuizBank;
-  if (!bank && currentQuizLevels?.["1"]?.length > 0) bank = currentQuizLevels["1"];
+  if (!bank && currentQuizLevels?.["1"]?.length > 0)
+    bank = currentQuizLevels["1"];
 
   if (!bank || bank.length === 0) {
     showInModalOrNotif("Tidak ada soal untuk level ini.");
@@ -463,7 +538,9 @@ async function handleQuiz(player) {
   if (correct) {
     const bonus = BONUS_BY_LEVEL[level] || BONUS_BY_LEVEL[1];
     player.points += bonus;
-    showNotif(`${player.name}: Jawaban benar! +${bonus.toLocaleString("id-ID")} poin`);
+    showNotif(
+      `${player.name}: Jawaban benar! +${bonus.toLocaleString("id-ID")} poin`
+    );
   } else {
     showNotif(`${player.name}: Jawaban salah.`);
   }
@@ -473,7 +550,9 @@ async function handleQuiz(player) {
 }
 
 function highlightLanding(index) {
-  const tile = boardEl.querySelector(`.tokens[data-idx="${index}"]`)?.closest(".tile");
+  const tile = boardEl
+    .querySelector(`.tokens[data-idx="${index}"]`)
+    ?.closest(".tile");
   if (!tile) return;
   tile.classList.add("highlight");
   setTimeout(() => tile.classList.remove("highlight"), 1200);
@@ -490,7 +569,9 @@ function playDiceSound() {
     o.connect(g).connect(ctx.destination);
     o.start();
     o.stop(ctx.currentTime + 0.3);
-  } catch (e) { /* ignore */ }
+  } catch (e) {
+    /* ignore */
+  }
 }
 
 /* ------------------------------------------------------
@@ -501,29 +582,29 @@ function playDiceSound() {
 diceEl.addEventListener("click", async () => {
   // 1. GUARD CLAUSE: Cegah klik beruntun/spam
   if (!started || isProcessingTurn) return;
-  
+
   // Kunci dadu
-  isProcessingTurn = true; 
-  diceEl.setAttribute("aria-disabled", "true"); 
-  
+  isProcessingTurn = true;
+  diceEl.setAttribute("aria-disabled", "true");
+
   const p = currentPlayer();
   scrollToBoard();
-  
+
   // 2. Lempar & Jalan
   const d = await rollDiceAnimated();
   diceValueEl.textContent = `${p.name} melempar dadu: ${d}`;
-  
+
   await movePlayerAnimated(p, d);
-  
+
   // 3. JEDA PENTING (2 Detik)
   // Memberi waktu baca notifikasi poin/edukasi sebelum ganti pemain
-  await new Promise(resolve => setTimeout(resolve, 2000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   // 4. Ganti Giliran & Buka Kunci
   nextTurn();
   diceEl.removeAttribute("aria-disabled");
   isProcessingTurn = false; // Siap untuk klik berikutnya
-  
+
   setTimeout(scrollToTurnPanel, 500);
 });
 // =============================================
@@ -533,7 +614,7 @@ startBtn.addEventListener("click", () => {
   const n = selectedPlayerCount;
   const categoryKey = selectedCategoryKey;
   const selectedCategory = allGameData.kategori[categoryKey] || {};
-  
+
   const catTitleEl = document.getElementById("categoryTitle");
   if (catTitleEl) {
     catTitleEl.textContent = selectedCategory.nama || "Kategori Terpilih";
@@ -550,7 +631,7 @@ startBtn.addEventListener("click", () => {
   started = true;
   setTurnInfo();
   diceEl.removeAttribute("aria-disabled");
-  
+
   // Reset flag
   isProcessingTurn = false;
 
@@ -565,9 +646,13 @@ function updatePlayerLevel(player) {
   if (player.points >= LEVEL_THRESHOLDS[3]) player.level = 3;
   else if (player.points >= LEVEL_THRESHOLDS[2]) player.level = 2;
   else player.level = 1;
-  
+
   if (player.level !== oldLevel) {
-    showInModalOrNotif(`${player.name} naik ke LEVEL ${player.level}!`, "", 1800);
+    showInModalOrNotif(
+      `${player.name} naik ke LEVEL ${player.level}!`,
+      "",
+      1800
+    );
   }
 }
 
@@ -575,7 +660,12 @@ function updatePlayerLevel(player) {
 const backBtnGame = document.getElementById("backBtnGame");
 if (backBtnGame) {
   backBtnGame.addEventListener("click", () => {
-    if (!confirm("Yakin ingin kembali ke menu utama? Progres permainan akan hilang.")) return;
+    if (
+      !confirm(
+        "Yakin ingin kembali ke menu utama? Progres permainan akan hilang."
+      )
+    )
+      return;
 
     document.getElementById("screen-game").classList.remove("active");
     document.getElementById("screen-setup").classList.add("active");
@@ -586,8 +676,8 @@ if (backBtnGame) {
     isProcessingTurn = false;
     diceEl.textContent = "🎲";
     diceEl.classList.remove("roll");
-    pionEls.forEach(p => p.style.display = 'none');
-    playerInfoBoxes.forEach(box => box.style.display = 'none');
+    pionEls.forEach((p) => (p.style.display = "none"));
+    playerInfoBoxes.forEach((box) => (box.style.display = "none"));
   });
 }
 
@@ -606,24 +696,47 @@ const howToPlayBtnGame = document.getElementById("howToPlayBtnGame");
 const closeHowToPlay = document.getElementById("closeHowToPlay");
 const closeHowToPlayBtn = document.getElementById("closeHowToPlayBtn");
 
-function openHowToPlayModal() { try { howToPlayModal.showModal(); } catch(e){} }
-function closeHowToPlayModal() { try { howToPlayModal.close(); } catch(e){} }
+function openHowToPlayModal() {
+  try {
+    howToPlayModal.showModal();
+  } catch (e) {}
+}
+function closeHowToPlayModal() {
+  try {
+    howToPlayModal.close();
+  } catch (e) {}
+}
 
-if(howToPlayBtnLanding) howToPlayBtnLanding.addEventListener("click", openHowToPlayModal);
-if(howToPlayBtnGame) howToPlayBtnGame.addEventListener("click", openHowToPlayModal);
-if(closeHowToPlay) closeHowToPlay.addEventListener("click", closeHowToPlayModal);
-if(closeHowToPlayBtn) closeHowToPlayBtn.addEventListener("click", closeHowToPlayModal);
+if (howToPlayBtnLanding)
+  howToPlayBtnLanding.addEventListener("click", openHowToPlayModal);
+if (howToPlayBtnGame)
+  howToPlayBtnGame.addEventListener("click", openHowToPlayModal);
+if (closeHowToPlay)
+  closeHowToPlay.addEventListener("click", closeHowToPlayModal);
+if (closeHowToPlayBtn)
+  closeHowToPlayBtn.addEventListener("click", closeHowToPlayModal);
 
 if (howToPlayModal) {
   howToPlayModal.addEventListener("click", (e) => {
     const rect = howToPlayModal.getBoundingClientRect();
-    if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
+    if (
+      e.clientX < rect.left ||
+      e.clientX > rect.right ||
+      e.clientY < rect.top ||
+      e.clientY > rect.bottom
+    ) {
       closeHowToPlayModal();
     }
   });
 }
 
-function scrollToBoard() { if (window.innerWidth > 768) return; boardEl.scrollIntoView({ behavior: "smooth", block: "center" }); }
-function scrollToTurnPanel() { if (window.innerWidth > 768) return; turnInfoEl.scrollIntoView({ behavior: "smooth", block: "center" }); }
+function scrollToBoard() {
+  if (window.innerWidth > 768) return;
+  boardEl.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+function scrollToTurnPanel() {
+  if (window.innerWidth > 768) return;
+  turnInfoEl.scrollIntoView({ behavior: "smooth", block: "center" });
+}
 
 loadGameData();

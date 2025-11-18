@@ -1,137 +1,186 @@
 <!DOCTYPE html>
 <html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartOne Journey</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SmartOne Journey</title>
-  
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-</head>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-<body>
-
-  <div id="screen-landing" class="screen active">
-    <div class="landing-container">
-      <h1>SmartOne Journey 🚀</h1>
-      <p>Jelajahi Dunia Pengetahuan!</p>
-      <button id="gassMulaiBtn">GASS MULAI</button>
-      <button id="howToPlayBtnLanding" class="btn-secondary">Cara Bermain</button>
-    </div>
-  </div>
-
-  <div id="screen-setup" class="screen">
-    <div class="setup-container">
-      <h2>Pilih Kategori:</h2>
-      <div id="category-card-group" class="card-group"></div>
-
-      <h2>Pilih Jumlah Pemain:</h2>
-      <div id="player-count-group" class="btn-group">
-        <button class="btn-choice selected" data-value="2">👤 2 Pemain</button>
-        <button class="btn-choice" data-value="3">👥 3 Pemain</button>
-        <button class="btn-choice" data-value="4">👨‍👩‍👧‍👦 4 Pemain</button>
+  <body>
+    <div id="screen-landing" class="screen active">
+      <div class="landing-container">
+        <h1>SmartOne Journey 🚀</h1>
+        <p>Jelajahi Dunia Pengetahuan!</p>
+        <button id="gassMulaiBtn">GASS MULAI</button>
+        <button id="howToPlayBtnLanding" class="btn-secondary">
+          Cara Bermain
+        </button>
       </div>
-
-      <button id="startBtn" disabled>Memuat Data...</button>
     </div>
-  </div>
 
-  <div id="screen-game" class="screen">
-    
-    <button id="howToPlayBtnGame" class="btn-help" aria-label="Cara Bermain">?</button>
-    <button id="backBtnGame" class="btn-back" aria-label="Kembali ke Menu">🏠</button>
-    
-    <div class="center-area">
-      <h1>SmartOne Journey</h1>
-      <h2 id="categoryTitle" class="category-badge">Kategori: -</h2>
+    <div id="screen-setup" class="screen">
+      <div class="setup-container">
+        <h2>Pilih Kategori:</h2>
+        <div id="category-card-group" class="card-group"></div>
 
-      <div id="board-wrapper">
-        
-        <div id="player1-info" class="player-info-box pos-tl"></div>
-        <div id="player2-info" class="player-info-box pos-tr"></div>
-        <div id="player3-info" class="player-info-box pos-bl"></div>
-        <div id="player4-info" class="player-info-box pos-br"></div>
-
-        <div id="board" class="board"></div>
-
-        <div id="diceOverlay">
-          <div id="dice" role="button" tabindex="0" aria-label="Dadu">1</div>
-          <div id="turnInfo" class="turn-info-center">Menunggu...</div>
-          <div id="diceValue" class="dice-instruction">Lempar dadu!</div>
+        <h2>Pilih Jumlah Pemain:</h2>
+        <div id="player-count-group" class="btn-group">
+          <button class="btn-choice selected" data-value="2">
+            👤 2 Pemain
+          </button>
+          <button class="btn-choice" data-value="3">👥 3 Pemain</button>
+          <button class="btn-choice" data-value="4">👨‍👩‍👧‍👦 4 Pemain</button>
         </div>
 
-        <div id="pion1" class="pion" aria-hidden="true">♟</div>
-        <div id="pion2" class="pion" aria-hidden="true">♟</div>
-        <div id="pion3" class="pion" aria-hidden="true">♟</div>
-        <div id="pion4" class="pion" aria-hidden="true">♟</div>
-
+        <button id="startBtn" disabled>Memuat Data...</button>
       </div>
     </div>
 
-    <dialog id="quizModal">
-      <p id="quizQuestion" style="font-weight:700;"></p>
-      <div id="quizChoices"></div>
-      <div id="modalNotif" class="modalNotif"></div>
-      <div class="quiz-footer">
-        <button id="quizSubmit">Jawab</button>
+    <div id="screen-game" class="screen">
+      <button id="howToPlayBtnGame" class="btn-help" aria-label="Cara Bermain">
+        ?
+      </button>
+      <button id="backBtnGame" class="btn-back" aria-label="Kembali ke Menu">
+        🏠
+      </button>
+      <button
+        id="sidebar-toggle-btn"
+        class="btn-sidebar-toggle"
+        aria-label="Toggle Player Info"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="center-area">
+        <h1>SmartOne Journey</h1>
+        <h2 id="categoryTitle" class="category-badge">Kategori: -</h2>
+
+        <div id="board-wrapper">
+          <div id="player-info-container">
+            <div id="player1-info" class="player-info-box pos-tl"></div>
+            <div id="player2-info" class="player-info-box pos-tr"></div>
+            <div id="player3-info" class="player-info-box pos-bl"></div>
+            <div id="player4-info" class="player-info-box pos-br"></div>
+          </div>
+
+          <div id="board" class="board"></div>
+
+          <div id="diceOverlay">
+            <div id="dice" role="button" tabindex="0" aria-label="Dadu">
+              <div class="dice-container">
+                <div class="face front">1</div>
+                <div class="face back">6</div>
+                <div class="face top">5</div>
+                <div class="face bottom">2</div>
+                <div class="face right">3</div>
+                <div class="face left">4</div>
+              </div>
+            </div>
+            <div id="turnInfo" class="turn-info-center">Menunggu...</div>
+            <div id="diceValue" class="dice-instruction">Lempar dadu!</div>
+          </div>
+
+          <div id="pion1" class="pion" aria-hidden="true">♟</div>
+          <div id="pion2" class="pion" aria-hidden="true">♟</div>
+          <div id="pion3" class="pion" aria-hidden="true">♟</div>
+          <div id="pion4" class="pion" aria-hidden="true">♟</div>
+        </div>
+      </div>
+
+      <dialog id="quizModal">
+        <p id="quizQuestion" style="font-weight: 700"></p>
+        <div id="quizChoices"></div>
+        <div id="modalNotif" class="modalNotif"></div>
+        <div class="quiz-footer">
+          <button id="quizSubmit">Jawab</button>
+        </div>
+      </dialog>
+
+      <div id="notifPopup" class="notif-popup" aria-live="polite"></div>
+    </div>
+
+    <dialog id="howToPlayModal">
+      <div class="modal-header">
+        <h2>📖 Cara Bermain</h2>
+        <button id="closeHowToPlay" class="btn-close" aria-label="Tutup">
+          &times;
+        </button>
+      </div>
+      <div class="modal-content">
+        <section>
+          <h3>🎯 Tujuan Game</h3>
+          <p>
+            Kumpulkan poin sebanyak mungkin dengan mengelola keuangan dengan
+            bijak. Naik level dengan mencapai target poin tertentu!
+          </p>
+        </section>
+        <section>
+          <h3>🎲 Cara Main</h3>
+          <ol>
+            <li>Klik <strong>dadu</strong> di tengah papan untuk melempar</li>
+            <li>Pion Anda akan bergerak sesuai angka dadu</li>
+            <li>Ikuti instruksi di setiap kotak yang Anda singgahi</li>
+            <li>Jawab kuis untuk mendapat bonus poin</li>
+          </ol>
+        </section>
+        <section>
+          <h3>🎨 Jenis Kotak</h3>
+          <div class="tile-legend">
+            <div class="legend-item">
+              <span class="legend-color income"></span
+              ><strong>Income (Hijau)</strong> - Dapat penghasilan
+            </div>
+            <div class="legend-item">
+              <span class="legend-color expense"></span
+              ><strong>Expense (Merah)</strong> - Pengeluaran wajib
+            </div>
+            <div class="legend-item">
+              <span class="legend-color tax"></span
+              ><strong>Tax (Kuning)</strong> - Bayar pajak (%)
+            </div>
+            <div class="legend-item">
+              <span class="legend-color save"></span
+              ><strong>Save (Biru)</strong> - Menabung masa depan
+            </div>
+            <div class="legend-item">
+              <span class="legend-color bonus"></span
+              ><strong>Bonus (Ungu)</strong> - Kuis berhadiah!
+            </div>
+            <div class="legend-item">
+              <span class="legend-color penalty"></span
+              ><strong>Penalty (Oranye)</strong> - Denda/kerugian
+            </div>
+          </div>
+        </section>
+        <section>
+          <h3>⭐ Sistem Level</h3>
+          <ul>
+            <li><strong>Level 1:</strong> 0 - 129.999 poin</li>
+            <li><strong>Level 2:</strong> 130.000 - 299.999 poin</li>
+            <li><strong>Level 3:</strong> 300.000+ poin</li>
+          </ul>
+        </section>
+        <section>
+          <h3>💡 Tips</h3>
+          <ul>
+            <li>Lewati kotak START untuk bonus +10.000 poin</li>
+            <li>Menabung itu penting untuk masa depan!</li>
+          </ul>
+        </section>
+      </div>
+      <div class="modal-footer">
+        <button id="closeHowToPlayBtn" class="btn-primary">Mengerti!</button>
       </div>
     </dialog>
 
-    <div id="notifPopup" class="notif-popup" aria-live="polite"></div>
-  </div>
-
-  <dialog id="howToPlayModal">
-    <div class="modal-header">
-      <h2>📖 Cara Bermain</h2>
-      <button id="closeHowToPlay" class="btn-close" aria-label="Tutup">&times;</button>
-    </div>
-    <div class="modal-content">
-      <section>
-        <h3>🎯 Tujuan Game</h3>
-        <p>Kumpulkan poin sebanyak mungkin dengan mengelola keuangan dengan bijak. Naik level dengan mencapai target poin tertentu!</p>
-      </section>
-      <section>
-        <h3>🎲 Cara Main</h3>
-        <ol>
-          <li>Klik <strong>dadu</strong> di tengah papan untuk melempar</li>
-          <li>Pion Anda akan bergerak sesuai angka dadu</li>
-          <li>Ikuti instruksi di setiap kotak yang Anda singgahi</li>
-          <li>Jawab kuis untuk mendapat bonus poin</li>
-        </ol>
-      </section>
-      <section>
-        <h3>🎨 Jenis Kotak</h3>
-        <div class="tile-legend">
-          <div class="legend-item"><span class="legend-color income"></span><strong>Income (Hijau)</strong> - Dapat penghasilan</div>
-          <div class="legend-item"><span class="legend-color expense"></span><strong>Expense (Merah)</strong> - Pengeluaran wajib</div>
-          <div class="legend-item"><span class="legend-color tax"></span><strong>Tax (Kuning)</strong> - Bayar pajak (%)</div>
-          <div class="legend-item"><span class="legend-color save"></span><strong>Save (Biru)</strong> - Menabung masa depan</div>
-          <div class="legend-item"><span class="legend-color bonus"></span><strong>Bonus (Ungu)</strong> - Kuis berhadiah!</div>
-          <div class="legend-item"><span class="legend-color penalty"></span><strong>Penalty (Oranye)</strong> - Denda/kerugian</div>
-        </div>
-      </section>
-      <section>
-        <h3>⭐ Sistem Level</h3>
-        <ul>
-          <li><strong>Level 1:</strong> 0 - 129.999 poin</li>
-          <li><strong>Level 2:</strong> 130.000 - 299.999 poin</li>
-          <li><strong>Level 3:</strong> 300.000+ poin</li>
-        </ul>
-      </section>
-      <section>
-        <h3>💡 Tips</h3>
-        <ul>
-          <li>Lewati kotak START untuk bonus +10.000 poin</li>
-          <li>Menabung itu penting untuk masa depan!</li>
-        </ul>
-      </section>
-    </div>
-    <div class="modal-footer">
-      <button id="closeHowToPlayBtn" class="btn-primary">Mengerti!</button>
-    </div>
-  </dialog>
-
-  <script src="game.js"></script>
-</body>
+    <script src="game.js"></script>
+  </body>
 </html>
