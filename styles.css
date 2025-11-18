@@ -492,3 +492,27 @@ dialog {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ======================================================
+   ANIMASI DADU (BARU)
+====================================================== */
+@keyframes rollDiceAnimation {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(50deg) scale(1.1) translateY(-5px);
+  }
+  50% {
+    transform: rotate(-50deg) scale(1.1) translateY(-5px);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+/* Ini adalah class yang dipanggil oleh game.js Anda */
+#dice.roll {
+  /* Durasi 0.45s = 450ms, sama seperti di JS Anda */
+  animation: rollDiceAnimation 0.45s ease-in-out;
+}
