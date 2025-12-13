@@ -14,7 +14,7 @@ const startBtn = document.getElementById("startBtn");
 const playerCountGroup = document.getElementById("player-count-group");
 const playerChoices = playerCountGroup.querySelectorAll(".btn-choice");
 
-const POINTPLAYERS = 500;
+const POINTPLAYERS = 20000;
 
 // --- ELEMENT MODAL KUIS ---
 const quizModal = document.getElementById("quizModal");
@@ -1673,6 +1673,9 @@ function updateTurnIndicator() {
 /* ======================================================
    13. LOADING LOGIC
 ====================================================== */
+/* ======================================================
+   13. LOADING LOGIC
+====================================================== */
 function performInitialLoading() {
   const overlay = document.getElementById("loading-overlay");
   const bar = document.getElementById("progressBar");
@@ -1681,23 +1684,37 @@ function performInitialLoading() {
 
   if (overlay) overlay.classList.remove("hidden");
 
-  // Load Data
-  loadGameData().then(() => {
+  // Load Data Normally
+  const dataLoadPromise = loadGameData().then(() => {
     console.log("Data loaded for Loading Screen");
+  });
+
+  // [BARU] Preload Image Promise
+  const imageLoadPromise = new Promise((resolve) => {
+    const img = new Image();
+    img.src = "assets/images/mascot.png";
+    img.onload = () => resolve();
+    img.onerror = () => resolve(); // Tetap lanjut meski error
+  });
+
+  // Tunggu semua (Data + Image) sebentar, tapi tetap jalankan animasi progress
+  Promise.all([dataLoadPromise, imageLoadPromise]).then(() => {
+    // Optional: Bisa percepat progress di sini jika mau
+    // console.log("All Assets Ready");
   });
 
   // Simulasi Progress
   let width = 0;
   const timer = setInterval(() => {
-    width += Math.random() * 12;
+    width += Math.random() * 12; // Lebih cepat sedikit biar ga bosen
     if (width > 100) width = 100;
 
     if (bar) bar.style.width = width + "%";
 
     // Text changes
     if (txt) {
-      if (width < 40) txt.textContent = "Menghubungkan ke server...";
-      else if (width < 70) txt.textContent = "Memuat aset permainan...";
+      if (width < 30) txt.textContent = "Menghubungkan ke server...";
+      else if (width < 60) txt.textContent = "Memuat aset permainan...";
       else if (width < 90) txt.textContent = "Menyiapkan papan...";
       else txt.textContent = "Siap bermain!";
     }
@@ -1709,7 +1726,7 @@ function performInitialLoading() {
         if (landing) landing.classList.add("active");
       }, 500);
     }
-  }, 200);
+  }, 150); // Speed up interval slightly
 }
 
 // Init when DOM ready
